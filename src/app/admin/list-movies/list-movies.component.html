@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4 mt-4">Admin panel</h3>
+  <div class="card shadow">
+    <div class="card-header py-3" style="display: flex; justify-content: space-between">
+      <p class="text-primary m-1 fw-bold">Serie List </p>
+      <button class="btn btn-primary" routerLink="/admin/createMovie">Add New Movie</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 text-nowrap">
+          <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable" (change)="numViews($event)">
+            <label class="form-label" >Show&nbsp;
+              <select class="d-inline-block form-select form-select-sm">
+                <option value="10" selected="">5</option>
+                <option value="25">10</option>
+                <option value="50">25</option>
+                <option value="100">100</option>
+              </select>&nbsp;</label></div>
+        </div>
+        <div class="col-md-6">
+          <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+        </div>
+      </div>
+      <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+        <table class="table my-0">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>Title</th>
+            <th>Studio</th>
+            <th>Genre</th>
+            <th>Duration</th>
+            <th>Release Date</th>
+            <th>Cover Image</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let movie of tableViews()">
+            <td>{{movie._id}}</td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.studio }}</td>
+            <td>{{ movie.genre  }}</td>
+            <td>{{ movie.duration  }}</td>
+            <td>{{ movie.releaseDate}}</td>
+            <td><img [src]="sanitizeImageUrl(movie.coverImage.path)" width="50" height="50"></td>
+            <td>
+              <button class="btn btn-primary mr-1" >Edit</button>
+              <button class="btn btn-danger" (click)="deleteMovies(movie._id)">Delete</button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td><strong>id</strong></td>
+            <td><strong>Title</strong></td>
+            <td><strong>Studio</strong></td>
+            <td><strong>Genre</strong></td>
+            <td><strong>Duration</strong></td>
+            <td><strong>ReleaseDate</strong></td>
+            <td><strong>Cover Image</strong></td>
+            <td><strong>Actions</strong></td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-6 align-self-center">
+          <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to {{this.showNum}} of {{movies.length}}</p>
+        </div>
+        <div class="col-md-6">
+          <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+            <ul class="pagination" >
+              <li class="page-item "><a class="page-link" aria-label="Previous" (click)="previousIndex()"><span aria-hidden="true">«</span></a></li>
+              <li  *ngFor="let i of getTotIndex()" class="page-item " [ngClass]="{ 'active': this.index === i }" ><a class="page-link" (click)="IndexChange(i)" >{{i}}</a></li>
+              <li class="page-item"><a class="page-link" aria-label="Next" (click)="nextIndex()"><span aria-hidden="true">»</span></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
